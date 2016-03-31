@@ -29,7 +29,8 @@ using 'db/seeds.rb' and see the file for explain queries to execute.
 
 === Offset method
 
-```
+```sql
+
 explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 10000;
                                                                               QUERY PLAN
 
