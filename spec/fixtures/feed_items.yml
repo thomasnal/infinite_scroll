@@ -1,0 +1,15 @@
+<% REC_NUM = 100 %>
+
+<% REC_NUM.downto(1) do |i| %>
+joe_<%= i %>:
+  content: <%= i %>
+  user: joe
+  created_at: <%= DateTime.now.iso8601(6) %>
+<% end %>
+
+<% REC_NUM.downto(1) do |i| %>
+jane_<%= i %>:
+  content: <%= i %>
+  user: jane
+  created_at: <%= DateTime.now.iso8601(6) %>
+<% end %>

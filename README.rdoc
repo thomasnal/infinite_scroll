@@ -1,0 +1,84 @@
+== Description
+
+The project implements infintely scrolling list feature.
+
+== Installation
+
+    git clone http://github.com/thomasnal/infinite_scroll 
+
+== Run tests by
+
+    rake spec
+
+== Approach to implementation
+
+I provided two approaches how to use the paging feature. First, for random page
+selection by providing page number and per_page count. Second, for infinite
+scrolling by supplying last feed from previous search.
+
+Reason for two approaches. With increasing offset the query performance slows
+down. With infinite scrolling feature the user however goes subsequently
+forward only, therefore, approach with supply of previous feed will keep
+the performance high.
+
+See the explain analyze from postgres console below. Due time constraint I left
+the test repeatable semi-automatically. Run 'rake db:setup' to generate test data
+using 'db/seeds.rb' and see the file for explain queries to execute.
+
+== SQL Performance
+
+=== Offset method
+
+```
+infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 10000;
+                                                                              QUERY PLAN                                                                               
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=744.30..745.79 rows=20 width=15) (actual time=14.894..14.934 rows=20 loops=1)
+   ->  Index Scan Backward using index_feed_items_on_created_at on feed_items  (cost=0.29..1603.18 rows=21544 width=15) (actual time=0.089..14.216 rows=10020 loops=1)
+         Filter: (user_id = 1)
+         Rows Removed by Filter: 10020
+ Planning time: 0.931 ms
+ Execution time: 14.991 ms
+(6 rows)
+```
+
+
+```
+infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 20000;
+                                                                              QUERY PLAN                                                                               
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1488.31..1489.80 rows=20 width=15) (actual time=30.496..30.520 rows=20 loops=1)
+   ->  Index Scan Backward using index_feed_items_on_created_at on feed_items  (cost=0.29..1603.18 rows=21544 width=15) (actual time=0.026..28.863 rows=20020 loops=1)
+         Filter: (user_id = 1)
+         Rows Removed by Filter: 20020
+ Planning time: 0.171 ms
+ Execution time: 30.559 ms
+(6 rows)
+```
+
+```
+infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 300000;
+                                                                                 QUERY PLAN                                                                                  
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=33681.98..33684.23 rows=20 width=14) (actual time=291.193..291.238 rows=20 loops=1)
+   ->  Index Scan Backward using index_feed_items_on_created_at on feed_items  (cost=0.42..112384.55 rows=1001000 width=14) (actual time=0.021..267.187 rows=300020 loops=1)
+         Filter: (user_id = 1)
+ Planning time: 0.561 ms
+ Execution time: 291.275 ms
+(5 rows)
+```
+
+=== Previous feed method
+
+```
+infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 AND created_at < '2016-03-031 17:46:15.730246' order by created_at DESC LIMIT 20;
+                                                                             QUERY PLAN                                                                              
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.42..2.91 rows=20 width=14) (actual time=0.047..0.069 rows=20 loops=1)
+   ->  Index Scan Backward using index_feed_items_on_created_at on feed_items  (cost=0.42..87034.22 rows=699995 width=14) (actual time=0.044..0.064 rows=20 loops=1)
+         Index Cond: (created_at < '2016-03-31 17:46:15.730246'::timestamp without time zone)
+         Filter: (user_id = 1)
+ Planning time: 0.292 ms
+ Execution time: 0.109 ms
+(6 rows)
+```
