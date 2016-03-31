@@ -30,7 +30,7 @@ using 'db/seeds.rb' and see the file for explain queries to execute.
 === Offset method
 
 ```
-infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 10000;
+explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 10000;
                                                                               QUERY PLAN
 
  Limit  (cost=744.30..745.79 rows=20 width=15) (actual time=14.894..14.934 rows=20 loops=1)
