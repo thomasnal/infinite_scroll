@@ -21,9 +21,9 @@ down. With infinite scrolling feature the user however goes subsequently
 forward only, therefore, approach with supply of previous feed will keep
 the performance high.
 
-See the explain analyze from postgres console below. Due time constraint I left
-the test repeatable semi-automatically. Run 'rake db:setup' to generate test data
-using 'db/seeds.rb' and see the file for explain queries to execute.
+See the explain analyze output below, it is taken from postgres console. Due time constraint I left
+the test repeatable just semi-automatically. Run `rake db:setup` to generate test data
+from 'db/seeds.rb' and execute the explain queries found in the file.
 
 == SQL Performance
 
