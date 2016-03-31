@@ -31,8 +31,8 @@ using 'db/seeds.rb' and see the file for explain queries to execute.
 
 ```
 infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 10000;
-                                                                              QUERY PLAN                                                                               
------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                              QUERY PLAN
+
  Limit  (cost=744.30..745.79 rows=20 width=15) (actual time=14.894..14.934 rows=20 loops=1)
    ->  Index Scan Backward using index_feed_items_on_created_at on feed_items  (cost=0.29..1603.18 rows=21544 width=15) (actual time=0.089..14.216 rows=10020 loops=1)
          Filter: (user_id = 1)
