@@ -39,37 +39,31 @@ using 'db/seeds.rb' and see the file for explain queries to execute.
      Planning time: 0.931 ms
      Execution time: 14.991 ms
     (6 rows)
-```
 
-
-```
-infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 20000;
+    infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 20000;
                                                                               QUERY PLAN                                                                               
 
- Limit  (cost=1488.31..1489.80 rows=20 width=15) (actual time=30.496..30.520 rows=20 loops=1)
-   ->  Index Scan Backward using index_feed_items_on_created_at on feed_items  (cost=0.29..1603.18 rows=21544 width=15) (actual time=0.026..28.863 rows=20020 loops=1)
-         Filter: (user_id = 1)
-         Rows Removed by Filter: 20020
- Planning time: 0.171 ms
- Execution time: 30.559 ms
-(6 rows)
-```
+     Limit  (cost=1488.31..1489.80 rows=20 width=15) (actual time=30.496..30.520 rows=20 loops=1)
+       ->  Index Scan Backward using index_feed_items_on_created_at on feed_items  (cost=0.29..1603.18 rows=21544 width=15) (actual time=0.026..28.863 rows=20020 loops=1)
+             Filter: (user_id = 1)
+             Rows Removed by Filter: 20020
+     Planning time: 0.171 ms
+     Execution time: 30.559 ms
+    (6 rows)
 
-```
-infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 300000;
+
+    infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 300000;
                                                                                  QUERY PLAN
 
- Limit  (cost=33681.98..33684.23 rows=20 width=14) (actual time=291.193..291.238 rows=20 loops=1)
-   ->  Index Scan Backward using index_feed_items_on_created_at on feed_items  (cost=0.42..112384.55 rows=1001000 width=14) (actual time=0.021..267.187 rows=300020 loops=1)
-         Filter: (user_id = 1)
- Planning time: 0.561 ms
- Execution time: 291.275 ms
-(5 rows)
-```
+     Limit  (cost=33681.98..33684.23 rows=20 width=14) (actual time=291.193..291.238 rows=20 loops=1)
+       ->  Index Scan Backward using index_feed_items_on_created_at on feed_items  (cost=0.42..112384.55 rows=1001000 width=14) (actual time=0.021..267.187 rows=300020 loops=1)
+             Filter: (user_id = 1)
+     Planning time: 0.561 ms
+     Execution time: 291.275 ms
+    (5 rows)
 
 === Previous feed method
 
-```
     infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 AND created_at < '2016-03-031 17:46:15.730246' order by created_at DESC LIMIT 20;
                                                                              QUERY PLAN
      Limit  (cost=0.42..2.91 rows=20 width=14) (actual time=0.047..0.069 rows=20 loops=1)
@@ -79,4 +73,3 @@ infinite_scroll_development=# explain analyze select content, created_at from fe
      Planning time: 0.292 ms
      Execution time: 0.109 ms
     (6 rows)
-```
