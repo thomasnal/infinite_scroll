@@ -6,14 +6,14 @@ class FeedItem < ActiveRecord::Base
   # scopes
   def self.newest_first page: 1, per_page: PER_PAGE, prev_feed: nil
     # Ordering by created_at is good enough for practical use, no need for
-    # additional id ordering. The timestamp resolution is in milliseconds
-    # therefore no two feeds of a user are expected to be created in
+    # additional ordering by id. Resolution of the timestamp is in milliseconds
+    # therefore no two feeds of the same user are expected to be created in
     # the same millisecond.
 
     # Higher the offset slower the query response time. The industry workaround
-    # is to supplement previously found feed item instead of using offset.
-    # This is particularly used in infinite scroll lists when it is sought
-    # only forward instead of randomly jumping to pages.
+    # is to supplement previously found feed item.
+    # This is particularly used in infinite scroll lists when only forward
+    # seeking is used.
 
     scoped = order(created_at: :desc)
     if prev_feed
