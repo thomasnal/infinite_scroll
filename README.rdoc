@@ -29,6 +29,7 @@ using 'db/seeds.rb' and see the file for explain queries to execute.
 
 === Offset method
 
+
     infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 10000;
                                                                               QUERY PLAN
 
@@ -40,6 +41,7 @@ using 'db/seeds.rb' and see the file for explain queries to execute.
      Execution time: 14.991 ms
     (6 rows)
 
+-
 
     infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 20000;
                                                                               QUERY PLAN                                                                               
@@ -52,7 +54,7 @@ using 'db/seeds.rb' and see the file for explain queries to execute.
      Execution time: 30.559 ms
     (6 rows)
 
-
+-
 
     infinite_scroll_development=# explain analyze select content, created_at from feed_items where user_id=1 order by created_at DESC LIMIT 20 OFFSET 300000;
                                                                                  QUERY PLAN
