@@ -9,6 +9,7 @@ This project implements infinitely scrolling list feature.
 == Run tests
 
     bundle install
+    rake db:setup
     rake spec
 
 == Approach to implementation
@@ -33,7 +34,9 @@ To see performance comparison of the two paging options, execute
     rake spec:perf_report
 
 It builds a million record dataset and prints result of SQL EXPLAIN/ANALYZE
-query for several different scenarios. See the output below.
+query for several different scenarios. (I suggest to re-run the task once
+the system finishes writing cached data into database. Until that time, explain
+analyze will be influenced by the writing operation.) See the output below.
 
 === Performance Report
 
