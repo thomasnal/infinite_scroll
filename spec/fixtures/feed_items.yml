@@ -1,15 +1,19 @@
 <% REC_NUM = 100 %>
+<% time = Time.now.to_i %>
 
-<% REC_NUM.downto(1) do |i| %>
+# To make verification of the pagination tests easi, let's create feeds with
+# content of integers in order of their date of creation
+
+<% 1.upto(REC_NUM) do |i| %>
 joe_<%= i %>:
   content: <%= i %>
   user: joe
-  created_at: <%= DateTime.now.iso8601(6) %>
+  created_at: <%= Time.at(time - i.to_f/REC_NUM).to_datetime.iso8601(6) %>
 <% end %>
 
-<% REC_NUM.downto(1) do |i| %>
+<% 1.upto(REC_NUM) do |i| %>
 jane_<%= i %>:
   content: <%= i %>
   user: jane
-  created_at: <%= DateTime.now.iso8601(6) %>
+  created_at: <%= Time.at(time - i.to_f/REC_NUM).to_datetime.iso8601(6) %>
 <% end %>
