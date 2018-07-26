@@ -20,10 +20,10 @@ model to allow pagination of user feeds.
 A naive and ideal approach is implemented.
 
 The naive paging functionality is achieved by providing a page number as an
-argument. Drawback of the naive approach is a time performance getting slower
-as page sourgh increases.
+argument. Drawback of the naive approach is the time performance is getting
+slower as page number increases.
 
-The ideal approach is operate in a constant time performance independent of
+The ideal approach operates in a constant time performance independent of
 the page number that is searched to ensure massive scalability.  This approach
 is implemented by providing the last feed of the currenlty displayed page as
 an argument.
