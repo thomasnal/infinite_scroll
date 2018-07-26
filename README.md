@@ -41,7 +41,7 @@ analyze will be influenced by the writing operation.) See the output below.
 
 ### Performance Report
 
-* page 1000
+* page 1000 naive
 ```
 EXPLAIN ANALYZE SELECT  "feed_items".* FROM "feed_items" WHERE "feed_items"."user_id" = $1  ORDER BY "feed_items"."created_at" DESC LIMIT 20 OFFSET 19981 [["user_id", 1]]
                                                                                 QUERY PLAN
@@ -54,7 +54,7 @@ EXPLAIN ANALYZE SELECT  "feed_items".* FROM "feed_items" WHERE "feed_items"."use
  (5 rows)
 ```
 
-* page 10000
+* page 10000 naive
 ```
 EXPLAIN ANALYZE SELECT  "feed_items".* FROM "feed_items" WHERE "feed_items"."user_id" = $1  ORDER BY "feed_items"."created_at" DESC LIMIT 20 OFFSET 199981 [["user_id", 1]]
                                                                                  QUERY PLAN
@@ -67,7 +67,7 @@ EXPLAIN ANALYZE SELECT  "feed_items".* FROM "feed_items" WHERE "feed_items"."use
  (5 rows)
 ```
 
-* page 25000
+* page 25000 naive
 ```
 EXPLAIN ANALYZE SELECT  "feed_items".* FROM "feed_items" WHERE "feed_items"."user_id" = $1  ORDER BY "feed_items"."created_at" DESC LIMIT 20 OFFSET 499981 [["user_id", 1]]
                                                                                  QUERY PLAN
@@ -80,7 +80,7 @@ EXPLAIN ANALYZE SELECT  "feed_items".* FROM "feed_items" WHERE "feed_items"."use
  (5 rows)
 ```
 
-* page 25000 using after feed
+* page 25000 ideal
 ```
 EXPLAIN ANALYZE SELECT  "feed_items".* FROM "feed_items" WHERE "feed_items"."user_id" = $1 AND (created_at < '2016-04-03 09:35:04.500019')  ORDER BY "feed_items"."created_at" DESC LIMIT 20 [["user_id", 1]]
                                                                              QUERY PLAN
