@@ -17,11 +17,16 @@ This project implements infinitely scrolling list feature.
 Core functionality is provided by the `Paginable` module. It extends `FeedItem`
 model to allow pagination of user feeds.
 
-The naive paging functionality is achieved by provided a page number as an
+A naive and ideal approach is implemented.
+
+The naive paging functionality is achieved by providing a page number as an
 argument. Drawback of the naive approach is a time performance getting slower
-as page sourgh increases.  The ideal approach is to achieve a constant time
-performance to ensure massive scalability.  This approach is implemented by
-providing the last feed of the currenlty displayed page as an argument.
+as page sourgh increases.
+
+The ideal approach is operate in a constant time performance independent of
+the page number that is searched to ensure massive scalability.  This approach
+is implemented by providing the last feed of the currenlty displayed page as
+an argument.
 
 ## Performance
 
